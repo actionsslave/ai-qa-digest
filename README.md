@@ -4,7 +4,7 @@ A small private system: a curated digest of new English-language resources on **
 shown in an Android app.
 
 ```
-curation job (07:00 / 12:00 / 17:00 Europe/Berlin)  ──►  docs/digest.json  ──►  GitHub Pages  ──►  Android app
+curation job (daily 08:00 Europe/Berlin)  ──►  docs/digest.json  ──►  GitHub Pages  ──►  Android app
 ```
 
 * `job/` – curation job (Python, standard library only)
@@ -56,6 +56,6 @@ On Apple Silicon use a `linux/amd64` container (the Android build tools are x86-
 
 * One screen, list of entries; tap opens the link in the default browser.
 * ★ marks entries that arrived since you last left the app (seen ids are stored locally).
-* Refresh: when opened, and in the background shortly after 07:00, 12:00, 17:00 (WorkManager, no exact alarms,
+* Refresh: when opened, and in the background shortly after 08:00, at about 08:05 (WorkManager, no exact alarms,
   Android power saving may delay it). Offline it shows the last loaded list and the time of the last update.
 * Only permission: `INTERNET`. HTTPS only (cleartext disabled). No Google services, no analytics, no crash reporter.

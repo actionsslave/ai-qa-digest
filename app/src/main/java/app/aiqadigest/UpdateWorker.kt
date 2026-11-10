@@ -12,7 +12,7 @@ import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 
 /**
- * Background refresh a few minutes after the curation job (07:00, 12:00, 17:00 Europe/Berlin).
+ * Background refresh a few minutes after the curation job (08:00 Europe/Berlin).
  * A chain of one-time work requests: each run schedules the next slot before it fetches.
  * No exact alarms, no notifications; Android may delay runs for battery saving.
  */
@@ -30,7 +30,7 @@ class UpdateWorker(context: Context, params: WorkerParameters) : Worker(context,
     companion object {
         private const val TAG = "digest-update"
         private val ZONE = ZoneId.of("Europe/Berlin")
-        private val SLOTS = listOf(LocalTime.of(7, 5), LocalTime.of(12, 5), LocalTime.of(17, 5))
+        private val SLOTS = listOf(LocalTime.of(8, 5))
 
         fun nextSlot(now: ZonedDateTime = ZonedDateTime.now(ZONE)): ZonedDateTime {
             val today = now.withZoneSameInstant(ZONE).toLocalDate()
