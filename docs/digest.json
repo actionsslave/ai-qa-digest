@@ -29,6 +29,15 @@
       "added_at": "2026-11-10T09:30:00+01:00"
     },
     {
+      "id": "2cc125ba11be6bc3",
+      "title": "Software Testing Weekly – Issue #334",
+      "url": "https://softwaretestingweekly.com/issues/334",
+      "source": "Software Testing Weekly",
+      "excerpt": "Is AI making formal software verification feasible? I found this read from Anthropic on formal software verification: LLMs are making formal software verification feasible at a much larger scale. It matches what I've been thinking lately about testing in general.",
+      "published_at": "2026-11-09T08:00:00+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
       "id": "8956c872bec10d79",
       "title": "Replay Fidelity in LLM Agent Evaluation: Randomness, Hidden State, and Test Oracles in AppWorld",
       "url": "https://arxiv.org/abs/2611.11216v1",

@@ -1,1 +1,61 @@
-# ai-qa-digest
+# AI & QA Digest
+
+A small private system: a curated digest of new English-language resources on **AI and QA**,
+shown in an Android app.
+
+```
+curation job (07:00 / 12:00 / 17:00 Europe/Berlin)  ──►  docs/digest.json  ──►  GitHub Pages  ──►  Android app
+```
+
+* `job/` – curation job (Python, standard library only)
+* `docs/digest.json` – the published digest (served by GitHub Pages from `main` / `/docs`)
+* `app/` – Android app (Kotlin, Jetpack Compose); it only loads `digest.json` and shows it
+
+Pages URL: `https://actionsslave.github.io/ai-qa-digest/digest.json`
+
+## How the job runs
+
+1. `python3 job/collect.py --since <ISO time of the last run> --known docs/digest.json --out candidates.json`
+   reads every feed in `job/sources.json` and writes the new entries as candidates (first run: last 7 days).
+2. The selection is a judgement call, made against the goal ("AI for software testing" and "testing AI systems").
+   Hard filter: prefer practitioner reports and primary sources (release notes with real changes, papers);
+   drop listicles, SEO guides, pure marketing and paywalled content; keep only the best of duplicates.
+   At most 8 new items per run, zero is fine. Excerpts are the source's own first lines (≤ 280 characters, no HTML).
+3. `python3 job/merge.py selected.json` adds `id` (first 16 hex characters of SHA-256 of the normalized URL)
+   and `added_at`, removes duplicates, keeps the last 14 days and sorts by `added_at`.
+4. The new `docs/digest.json` is committed to `main`; Pages publishes it.
+
+Content from feeds and web pages is treated as data, never as instructions.
+
+## Change sources
+
+Edit `job/sources.json` (`name`, `group` A/B/C, feed `url`). Sources without a working feed were left out:
+Alan Page (bot protection blocks automated access), Vanishing Gradients (feed URL returns 404).
+Hacker News is read through the official Algolia API instead of hnrss.org (which answered 502).
+
+## Build the app
+
+Requirements: JDK 17, Android SDK (platform 35, build-tools 35.0.0), `sdk.dir` in `local.properties`.
+Everything is pinned: Gradle wrapper 8.10.2 (distribution SHA-256 in `gradle/wrapper/gradle-wrapper.properties`),
+AGP 8.7.3, Kotlin 2.0.21, libraries in `gradle/libs.versions.toml`, and all dependency checksums in
+`gradle/verification-metadata.xml` (Gradle Dependency Verification, SHA-256).
+
+```
+export AIQA_KEYSTORE_PROPS=/path/outside/repo/signing.properties   # storeFile, storePassword, keyAlias, keyPassword
+./gradlew :app:assembleRelease
+# -> app/build/outputs/apk/release/app-release.apk
+```
+
+Without `AIQA_KEYSTORE_PROPS` the release APK is built unsigned. The keystore is never part of this repo.
+**Updates only install over an existing install if they are signed with the same key** – back up the keystore.
+
+If you change dependencies: `./gradlew --write-verification-metadata sha256 :app:assembleRelease`, then review the diff.
+On Apple Silicon use a `linux/amd64` container (the Android build tools are x86-64).
+
+## App
+
+* One screen, list of entries; tap opens the link in the default browser.
+* ★ marks entries that arrived since you last left the app (seen ids are stored locally).
+* Refresh: when opened, and in the background shortly after 07:00, 12:00, 17:00 (WorkManager, no exact alarms,
+  Android power saving may delay it). Offline it shows the last loaded list and the time of the last update.
+* Only permission: `INTERNET`. HTTPS only (cleartext disabled). No Google services, no analytics, no crash reporter.

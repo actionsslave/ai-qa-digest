@@ -1,0 +1,103 @@
+{
+  "sources": [
+    {
+      "name": "Software Testing Weekly",
+      "group": "A",
+      "url": "https://softwaretestingweekly.com/issues/rss/"
+    },
+    {
+      "name": "Ministry of Testing",
+      "group": "A",
+      "url": "https://dev.to/feed/ministryoftesting"
+    },
+    {
+      "name": "AI in QA",
+      "group": "A",
+      "url": "https://aiinqa.com/rss/"
+    },
+    {
+      "name": "AI For Testers Weekly",
+      "group": "A",
+      "url": "https://aifortestersweekly.curated.co/issues.rss"
+    },
+    {
+      "name": "MorningQA",
+      "group": "A",
+      "url": "https://morningqa.substack.com/feed"
+    },
+    {
+      "name": "QA Meets AI",
+      "group": "A",
+      "url": "https://qaflow.substack.com/feed"
+    },
+    {
+      "name": "TestGuild",
+      "group": "A",
+      "url": "https://testguild.com/feed/"
+    },
+    {
+      "name": "EvilTester",
+      "group": "A",
+      "url": "https://www.eviltester.com/index.xml"
+    },
+    {
+      "name": "DevelopSense",
+      "group": "A",
+      "url": "https://developsense.com/feed"
+    },
+    {
+      "name": "Playwright Releases",
+      "group": "A",
+      "url": "https://github.com/microsoft/playwright/releases.atom"
+    },
+    {
+      "name": "Playwright MCP Releases",
+      "group": "A",
+      "url": "https://github.com/microsoft/playwright-mcp/releases.atom"
+    },
+    {
+      "name": "Hamel Husain",
+      "group": "B",
+      "url": "https://hamel.dev/index.xml"
+    },
+    {
+      "name": "Eugene Yan",
+      "group": "B",
+      "url": "https://eugeneyan.com/rss/"
+    },
+    {
+      "name": "Simon Willison (evals)",
+      "group": "B",
+      "url": "https://simonwillison.net/tags/evals.atom"
+    },
+    {
+      "name": "arXiv cs.SE",
+      "group": "C",
+      "url": "https://export.arxiv.org/api/query?search_query=cat:cs.SE+AND+abs:LLM+AND+(abs:testing+OR+abs:%22test+generation%22)&sortBy=submittedDate&sortOrder=descending&max_results=40"
+    },
+    {
+      "name": "r/QualityAssurance",
+      "group": "C",
+      "url": "https://www.reddit.com/r/QualityAssurance/top/.rss?t=day"
+    },
+    {
+      "name": "r/softwaretesting",
+      "group": "C",
+      "url": "https://www.reddit.com/r/softwaretesting/top/.rss?t=day"
+    },
+    {
+      "name": "Hacker News",
+      "group": "C",
+      "type": "hn_algolia",
+      "min_points": 50,
+      "queries": [
+        "AI testing",
+        "LLM testing",
+        "evals",
+        "LLM as a judge",
+        "agent evaluation",
+        "playwright"
+      ]
+    }
+  ]
+}
