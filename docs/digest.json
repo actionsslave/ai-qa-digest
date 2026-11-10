@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-11-10T09:30:00+01:00",
+  "items": [
+    {
+      "id": "5750753d8910b463",
+      "title": "Playwright v1.65.0",
+      "url": "https://github.com/microsoft/playwright/releases/tag/v1.65.0",
+      "source": "Playwright Releases",
+      "excerpt": "Run tests with Bun The test runner now runs under Bun . Bun transpiles your TypeScript test files itself, so Playwright does not use Babel or its compilation cache. Pass the --bun flag, because without it bunx playwright test runs on Node.js: bunx --bun playwright test Our CI…",
+      "published_at": "2026-11-09T21:03:39+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
+      "id": "efcbc5d26d14a980",
+      "title": "Playwright MCP v0.0.85",
+      "url": "https://github.com/microsoft/playwright-mcp/releases/tag/v0.0.85",
+      "source": "Playwright MCP Releases",
+      "excerpt": "Highlights 🌙 Keep the browser in the background ( microsoft/playwright#42973 ) — connecting through the extension activated the tab and focused the browser window, taking the screen from the app you were working in. Pass --background alongside --extension (config background…",
+      "published_at": "2026-11-09T18:28:53+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
+      "id": "0cc09349690e1ab9",
+      "title": "AI in QA – Issue #35",
+      "url": "https://aiinqa.com/ai-in-qa-issue-35",
+      "source": "AI in QA",
+      "excerpt": "Clear requirements come first again with LLM coding agents. Vague descriptions get filled with confident assumptions. Matt Pocock's /grill-me skill helps refine ideas into clear intent so we can test requirements before code exists. The requirements phase isn't overhead. It's…",
+      "published_at": "2026-11-09T11:30:00+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
+      "id": "8956c872bec10d79",
+      "title": "Replay Fidelity in LLM Agent Evaluation: Randomness, Hidden State, and Test Oracles in AppWorld",
+      "url": "https://arxiv.org/abs/2611.11216v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "Reproducibility in large language model (LLM) agent evaluation depends on replay fidelity: which parts of an execution trace are reconstructed, controlled, and compared. This matters for agent debugging, failure analysis, and counterfactual evaluation of stateful tool use. We…",
+      "published_at": "2026-11-08T08:07:06+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
+      "id": "3143b15962590bca",
+      "title": "AgentTrustCI: Build-Time Policy, Grounding, and Trajectory Tests for Java LLM Agents",
+      "url": "https://arxiv.org/abs/2611.06674v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "Infrastructure security does not establish whether an LLM agent selected an allowed tool, grounded its answer in tool output, or followed a required workflow. AgentTrustCI is a Java/JUnit 5 framework that expresses these application-layer expectations as policy, grounding, and…",
+      "published_at": "2026-11-04T15:46:11+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
+      "id": "660e2885af6b395a",
+      "title": "Can LLM Agents Learn to Test? Maintaining Scoped Experience as Testing Evidence for Mobile GUI Testing",
+      "url": "https://arxiv.org/abs/2611.05873v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "Repeated mobile GUI tests can reuse routes, locators, and recovery strategies from earlier executions. However, a route that worked in one workflow or app version may be irrelevant or misleading in another. We study how an LLM-based tester can retain useful experience while…",
+      "published_at": "2026-11-04T03:04:37+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    },
+    {
+      "id": "60724c835de1389a",
+      "title": "A Jev that can ask Opus for help gives Opus accuracy at 4x lower cost",
+      "url": "https://hightouch.com/blog/llm-judges-identity-resolution",
+      "source": "Hacker News",
+      "excerpt": "We tested whether fast, cheap decision models like Jev and GPT-6 Luna could grade identity resolution as well as frontier LLMs, and found that pairing Jev with Claude Opus gets close to Opus-level accuracy for much less.",
+      "published_at": "2026-11-04T00:00:00+00:00",
+      "added_at": "2026-11-10T09:30:00+01:00"
+    }
+  ]
+}
