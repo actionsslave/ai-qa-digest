@@ -23,12 +23,32 @@
     {
       "name": "MorningQA",
       "group": "A",
-      "url": "https://morningqa.substack.com/feed"
+      "url": "https://morningqa.substack.com/feed",
+      "fallbacks": [
+        {
+          "type": "substack_archive",
+          "url": "https://morningqa.substack.com/api/v1/archive?sort=new&limit=20"
+        },
+        {
+          "type": "rss2json",
+          "url": "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmorningqa.substack.com%2Ffeed"
+        }
+      ]
     },
     {
       "name": "QA Meets AI",
       "group": "A",
-      "url": "https://qaflow.substack.com/feed"
+      "url": "https://qaflow.substack.com/feed",
+      "fallbacks": [
+        {
+          "type": "substack_archive",
+          "url": "https://qaflow.substack.com/api/v1/archive?sort=new&limit=20"
+        },
+        {
+          "type": "rss2json",
+          "url": "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fqaflow.substack.com%2Ffeed"
+        }
+      ]
     },
     {
       "name": "TestGuild",

@@ -69,6 +69,46 @@ def parse_feed(data):
                             date=parse_date(txt(e, "pubDate") or txt(e, "dc:date")), body=body))
     return out
 
+def _same_host(url, host):
+    from urllib.parse import urlsplit
+    return urlsplit(url).hostname == host
+
+def fallback_items(fb, host):
+    """Alternative routes for feeds that block the CI runner's IP (Substack answers GitHub's data-centre IPs with 403).
+    Both routes only deliver the same public posts; items whose link is not on the publication's own host are dropped."""
+    data = json.loads(fetch(fb["url"]))
+    out = []
+    if fb["type"] == "substack_archive":
+        for p in data.get("posts", []):
+            if p.get("audience") != "everyone" or not _same_host(p.get("canonical_url", ""), host): continue
+            out.append(dict(title=clean_text(p.get("title", "")), url=p["canonical_url"], date=parse_date(p.get("post_date")),
+                            body=p.get("description") or p.get("subtitle") or p.get("search_engine_description") or ""))
+    elif fb["type"] == "rss2json":
+        if data.get("status") != "ok": raise RuntimeError("rss2json: " + str(data.get("message", ""))[:60])
+        for p in data.get("items", []):
+            if not _same_host(p.get("link", ""), host): continue
+            d = parse_date((p.get("pubDate") or "").replace(" ", "T") + "+00:00")
+            out.append(dict(title=clean_text(p.get("title", "")), url=p["link"], date=d, body=p.get("description", "")))
+    else:
+        raise RuntimeError("unknown fallback " + fb["type"])
+    return out
+
+def get_items(s, since):
+    """Direct route first, then fallbacks. Returns (items, route)."""
+    if s.get("type") == "hn_algolia": return hn_items(s, since), "direct"
+    try:
+        return parse_feed(fetch(s["url"])), "direct"
+    except Exception as e:
+        err = str(e)
+        from urllib.parse import urlsplit
+        host = urlsplit(s.get("url", "")).hostname
+        for fb in s.get("fallbacks", []):
+            try:
+                return fallback_items(fb, host), fb["type"]
+            except Exception as e2:
+                err += f"; {fb['type']}: {e2}"
+        raise RuntimeError(err)
+
 def hn_items(s, since):
     """Hacker News via the official Algolia API (hnrss.org search answered 502)."""
     import urllib.parse
@@ -97,7 +137,7 @@ def main():
     report, cands, seen = [], [], set()
     for s in json.loads(Path(a.sources).read_text())["sources"]:
         try:
-            items = hn_items(s, since) if s.get("type") == "hn_algolia" else parse_feed(fetch(s["url"]))
+            items, route = get_items(s, since)
             n_new = 0
             for it in items:
                 if not it["url"] or not it["date"] or it["date"] < since: continue
@@ -108,14 +148,14 @@ def main():
                                   source=s["name"], group=s["group"], published_at=it["date"].isoformat(),
                                   excerpt=excerpt(it["body"]),
                                   length=len(clean_text(it["body"]))))
-            report.append(dict(source=s["name"], url=s.get("url", s.get("type")), ok=True, entries=len(items), new=n_new))
+            report.append(dict(source=s["name"], url=s.get("url", s.get("type")), ok=True, entries=len(items), new=n_new, route=route))
         except Exception as e:
             report.append(dict(source=s["name"], url=s.get("url", s.get("type")), ok=False, error=str(e)))
         time.sleep(1)
     cands.sort(key=lambda c: c["published_at"], reverse=True)
     Path(a.out).write_text(json.dumps(dict(since=since.isoformat(), report=report, candidates=cands), indent=1, ensure_ascii=False))
     for r in report:
-        print(("OK  " if r["ok"] else "FAIL"), r["source"], r.get("entries", ""), r.get("new", ""), r.get("error", ""), file=sys.stderr)
+        print(("OK  " if r["ok"] else "FAIL"), r["source"], r.get("entries", ""), r.get("new", ""), ("via " + r["route"]) if r.get("route", "direct") != "direct" else "", r.get("error", ""), file=sys.stderr)
     print(f"{len(cands)} candidates", file=sys.stderr)
 
 if __name__ == "__main__":
