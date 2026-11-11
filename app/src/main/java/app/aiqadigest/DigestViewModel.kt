@@ -24,6 +24,14 @@ class DigestViewModel(app: Application) : AndroidViewModel(app) {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
+    private val _themeId = MutableStateFlow(repo.themeId())
+    val themeId: StateFlow<String> = _themeId.asStateFlow()
+
+    fun setTheme(id: String) {
+        repo.setThemeId(id)
+        _themeId.value = id
+    }
+
     /** Ids seen up to the last time the app was left. */
     private var seenAtStart: Set<String> = emptySet()
 

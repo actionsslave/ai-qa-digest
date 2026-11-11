@@ -72,6 +72,10 @@ On Apple Silicon use a `linux/amd64` container (the Android build tools are x86-
 
 * One screen, list of entries; tap opens the link in the default browser.
 * ★ marks entries that arrived since you last left the app (seen ids are stored locally).
+* **Design:** the "Design" link in the header opens a list of 21 designs, from Bauhaus (1923) to Neumorphism and
+  Brutalism (2020s); the choice applies immediately and is stored on the device. "Standard" follows the system light/dark mode.
+  Only system fonts are used. The design table lives in `tools/gen_themes.py`, which also checks WCAG contrast (≥ 4.5:1 for text)
+  and generates `app/src/main/java/app/aiqadigest/Themes.kt`: edit the table, run `python3 tools/gen_themes.py`, copy `Themes.kt` over.
 * Refresh: when opened, and in the background shortly after 08:00, at about 08:05 (WorkManager, no exact alarms,
   Android power saving may delay it). Offline it shows the last loaded list and the time of the last update.
 * Only permission: `INTERNET`. HTTPS only (cleartext disabled). No Google services, no analytics, no crash reporter.

@@ -62,6 +62,12 @@ class Repository(context: Context) {
         }
     }
 
+    fun themeId(): String = prefs.getString(KEY_THEME, Themes.DEFAULT_ID) ?: Themes.DEFAULT_ID
+
+    fun setThemeId(id: String) {
+        prefs.edit().putString(KEY_THEME, id).apply()
+    }
+
     fun seenIds(): Set<String> =
         prefs.getString(KEY_SEEN, "")!!.split('\n').filter { it.isNotEmpty() }.toSet()
 
@@ -75,6 +81,7 @@ class Repository(context: Context) {
         const val KEY_LAST_OK = "last_ok"
         const val KEY_LAST_ERROR = "last_error"
         const val KEY_SEEN = "seen_ids"
+        const val KEY_THEME = "theme"
         const val MAX_BYTES = 2_000_000
         const val MAX_SEEN = 1000
     }
