@@ -1,6 +1,15 @@
 {
-  "generated_at": "2026-11-10T09:30:00+01:00",
+  "generated_at": "2026-11-11T08:07:26+01:00",
   "items": [
+    {
+      "id": "a89f0826746b4cb4",
+      "title": "Comparative Analysis of Agent Evaluation Frameworks: Stability, Detection, and Discovery in Enterprise Analytics Agents",
+      "url": "https://arxiv.org/abs/2611.14493v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "Deploying LLM-based analytics agents in enterprise settings requires evaluation frameworks that can reliably detect failures across complex, multi-tool workflows. We present a three-phase comparative study of three evaluation frameworks, each representing a distinct evaluation…",
+      "published_at": "2026-11-10T18:50:06+00:00",
+      "added_at": "2026-11-11T08:07:26+01:00"
+    },
     {
       "id": "5750753d8910b463",
       "title": "Playwright v1.65.0",
