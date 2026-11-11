@@ -3,14 +3,15 @@ name: Curate digest
 
 on:
   schedule:
-    # GitHub cron is UTC. 08:00 Europe/Berlin is 07:00 UTC in winter and 06:00 UTC in summer,
+    # GitHub cron is UTC. 06:00 Europe/Berlin is 05:00 UTC in winter and 04:00 UTC in summer,
     # so both times are scheduled; the "gate" step lets only the first run of the Berlin day through.
-    - cron: "17 6 * * *"
-    - cron: "17 7 * * *"
+    # Minute 17 instead of 0: GitHub delays runs at the top of the hour.
+    - cron: "17 4 * * *"
+    - cron: "17 5 * * *"
   workflow_dispatch:
     inputs:
       force:
-        description: "Run even if today's digest already exists or it is before 08:00"
+        description: "Run even if today's digest already exists or it is before 06:00"
         type: boolean
         default: false
 
@@ -34,7 +35,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Gate (08:00 Berlin, once per day)
+      - name: Gate (06:00 Berlin, once per day)
         id: gate
         working-directory: repo
         run: |
@@ -46,7 +47,7 @@ jobs:
           last = json.load(open("docs/digest.json")).get("generated_at", "")
           done_today = last[:10] == now.date().isoformat()
           forced = os.environ.get("FORCE") == "true"
-          run = forced or (now.hour >= 8 and not done_today)
+          run = forced or (now.hour >= 6 and not done_today)
           print("run=" + ("true" if run else "false"))
           print(f"# berlin={now.isoformat(timespec='minutes')} last={last} done_today={done_today}", file=__import__('sys').stderr)
           PY
