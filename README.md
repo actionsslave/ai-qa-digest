@@ -4,7 +4,7 @@ A small private system: a curated digest of new English-language resources on **
 shown in an Android app.
 
 ```
-curation job (daily 08:00 Europe/Berlin)  ──►  docs/digest.json  ──►  GitHub Pages  ──►  Android app
+curation job (daily 06:00 Europe/Berlin)  ──►  docs/digest.json  ──►  GitHub Pages  ──►  Android app
 ```
 
 * `job/` – curation job (Python, standard library only)
@@ -39,7 +39,7 @@ One-time setup (in the GitHub web UI, as the repo owner):
 4. Create `.github/workflows/digest.yml` with the content of `ci/digest.yml`.
 5. Actions tab → *Curate digest* → *Run workflow* (tick *force*) to test it once.
 
-Schedule: 08:00 Europe/Berlin (GitHub may start it a few minutes late). The run fails visibly (and GitHub e-mails you) if the API key or credits are missing; nothing is published in that case.
+Schedule: 06:00 Europe/Berlin (GitHub may start it a few minutes late). The run fails visibly (and GitHub e-mails you) if the API key or credits are missing; nothing is published in that case.
 
 ## Change sources
 
