@@ -1,0 +1,78 @@
+# Copy this file to .github/workflows/digest.yml (see README, "Run the job in GitHub Actions").
+name: Curate digest
+
+on:
+  schedule:
+    # GitHub cron is UTC. 08:00 Europe/Berlin is 07:00 UTC in winter and 06:00 UTC in summer,
+    # so both times are scheduled; the "gate" step lets only the first run of the Berlin day through.
+    - cron: "17 6 * * *"
+    - cron: "17 7 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Run even if today's digest already exists or it is before 08:00"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: curate-digest
+  cancel-in-progress: false
+
+jobs:
+  curate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Clone repository
+        run: |
+          git clone --depth 50 "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          git -C repo config user.name "github-actions[bot]"
+          git -C repo config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Gate (08:00 Berlin, once per day)
+        id: gate
+        working-directory: repo
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          now = datetime.now(ZoneInfo("Europe/Berlin"))
+          last = json.load(open("docs/digest.json")).get("generated_at", "")
+          done_today = last[:10] == now.date().isoformat()
+          forced = os.environ.get("FORCE") == "true"
+          run = forced or (now.hour >= 8 and not done_today)
+          print("run=" + ("true" if run else "false"))
+          print(f"# berlin={now.isoformat(timespec='minutes')} last={last} done_today={done_today}", file=__import__('sys').stderr)
+          PY
+        env:
+          FORCE: ${{ github.event.inputs.force }}
+
+      - name: Collect candidates
+        if: steps.gate.outputs.run == 'true'
+        working-directory: repo
+        run: |
+          SINCE=$(python3 -c "import json; from datetime import datetime, timezone; d=json.load(open('docs/digest.json')); print(datetime.fromisoformat(d['generated_at']).astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))")
+          python3 job/collect.py --since "$SINCE" --known docs/digest.json --out candidates.json
+
+      - name: Select (OpenRouter)
+        if: steps.gate.outputs.run == 'true'
+        working-directory: repo
+        run: python3 job/select_items.py candidates.json --out selected.json
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+
+      - name: Merge and publish
+        if: steps.gate.outputs.run == 'true'
+        working-directory: repo
+        run: |
+          python3 job/merge.py selected.json
+          git add docs/digest.json
+          git commit -m "Digest update $(date -u +%F)"
+          git push origin HEAD:main
