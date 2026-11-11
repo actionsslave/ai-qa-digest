@@ -1,0 +1,79 @@
+{
+ "pubkey": "6e7132c465a7beed82831ff8082e67b42c0b6da3968890a2383f01b0373cb124",
+ "good": {
+  "pubkey": "6e7132c465a7beed82831ff8082e67b42c0b6da3968890a2383f01b0373cb124",
+  "created_at": 1794380846,
+  "kind": 30023,
+  "tags": [
+   [
+    "d",
+    "a89f0826746b4cb4"
+   ],
+   [
+    "title",
+    "Comparative Analysis of Agent Evaluation Frameworks: Stability, Detection, and Discovery in Enterprise Analytics Agents"
+   ],
+   [
+    "summary",
+    "Deploying LLM-based analytics agents in enterprise settings requires evaluation frameworks that can reliably detect failures across complex, multi-tool workflows. We present a three-phase comparative study of three evaluation frameworks, each representing a distinct evaluation…"
+   ],
+   [
+    "published_at",
+    "1794336606"
+   ],
+   [
+    "r",
+    "https://arxiv.org/abs/2611.14493v1"
+   ],
+   [
+    "source",
+    "arXiv cs.SE"
+   ],
+   [
+    "t",
+    "ai-qa-digest"
+   ]
+  ],
+  "content": "Deploying LLM-based analytics agents in enterprise settings requires evaluation frameworks that can reliably detect failures across complex, multi-tool workflows. We present a three-phase comparative study of three evaluation frameworks, each representing a distinct evaluation…\n\nhttps://arxiv.org/abs/2611.14493v1",
+  "id": "3d46e69eee383b562bb94a5037494bb87a30d0c8ced616afcc1dec7dcce1f1fe",
+  "sig": "91e713c61d051c949e813c4aa7ed52fe870e1b95cd1069a247f31e2e714129e9202bcc31ad8881d9012ee27ee4feb88d29244260e6a70b0d77c43584758fa152"
+ },
+ "nasty": {
+  "pubkey": "6e7132c465a7beed82831ff8082e67b42c0b6da3968890a2383f01b0373cb124",
+  "created_at": 1794384000,
+  "kind": 30023,
+  "tags": [
+   [
+    "d",
+    "0123456789abcdef"
+   ],
+   [
+    "title",
+    "He said \"hi\" \\ back\\slash — ünï 日本語 😀 </script>"
+   ],
+   [
+    "summary",
+    "Line one\nLine\ttwo with tab and “quotes” and emoji 🧪"
+   ],
+   [
+    "published_at",
+    "1794297600"
+   ],
+   [
+    "r",
+    "https://example.com/a?b=1&c=2"
+   ],
+   [
+    "source",
+    "Test"
+   ],
+   [
+    "t",
+    "ai-qa-digest"
+   ]
+  ],
+  "content": "Line one\nLine\ttwo with tab and “quotes” and emoji 🧪\n\nhttps://example.com/a?b=1&c=2",
+  "id": "4ed4c5b184f2b3228404d88743b2dee08a5a30ed4ce807e9213084a1d8f22d94",
+  "sig": "17fe7b6dd8f322e78968845aa5a385120d6c530b8e12eeb268d599b38abe8c2c06068a1463c344c7291363aa097056b8f1b34e5a5d7b67e4d1eb3b501b924e3d"
+ }
+}

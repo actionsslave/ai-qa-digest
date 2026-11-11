@@ -1,13 +1,16 @@
 # All versions are pinned exactly. Dependency checksums: gradle/verification-metadata.xml
 [versions]
 agp = "8.7.3"
-kotlin = "2.0.21"
+kotlin = "2.3.10"
 composeBom = "2024.11.00"
 activityCompose = "1.9.3"
 coreKtx = "1.15.0"
 lifecycle = "2.8.7"
 work = "2.9.1"
 serialization = "1.7.3"
+okhttp = "5.3.2"
+secp256k1 = "0.24.0"
+junit = "4.13.2"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -20,6 +23,12 @@ androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-ru
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+secp256k1-jni-android = { module = "fr.acinq.secp256k1:secp256k1-kmp-jni-android", version.ref = "secp256k1" }
+secp256k1-jvm = { module = "fr.acinq.secp256k1:secp256k1-kmp-jvm", version.ref = "secp256k1" }
+secp256k1-jni-jvm = { module = "fr.acinq.secp256k1:secp256k1-kmp-jni-jvm", version.ref = "secp256k1" }
+junit = { module = "junit:junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

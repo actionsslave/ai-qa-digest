@@ -41,6 +41,20 @@ One-time setup (in the GitHub web UI, as the repo owner):
 
 Schedule: 06:00 Europe/Berlin (GitHub may start it a few minutes late). The run fails visibly (and GitHub e-mails you) if the API key or credits are missing; nothing is published in that case.
 
+## Nostr
+
+Every entry of `digest.json` is also published to Nostr relays by the same workflow (`job/nostr.py`, step *Publish to Nostr*).
+* One NIP-23 long-form event (kind 30023) per entry, `d` tag = entry id, tags `title`, `summary` (the excerpt), `published_at`,
+  `r` (the link), `source`, `t=ai-qa-digest`; `created_at` is the time the entry was added. The account is a separate key just for the digest.
+* Account and relays: `job/nostr.json` (public key, relay list). The secret key is the repo secret `NOSTR_SECRET_KEY`
+  (64 hex characters or `nsec1…`); without it the step is skipped. Publishing is idempotent (signing is deterministic), the whole
+  14-day window is sent on every run, so a relay that was down catches up.
+* The app reads from the relays first and falls back to `digest.json` on Pages if no relay answers. Every event is checked in the app
+  (author key, event id, BIP340 signature) before it is shown; relays are not trusted. Relays and the key are compiled in from `job/nostr.json`.
+* Libraries (only for Nostr): OkHttp (WebSocket) and secp256k1-kmp (signature check). Both are pinned and covered by dependency verification.
+* Check what the relays hold: `python3 job/nostr.py read`. Unit tests with events signed by the Python code: `./gradlew :app:testReleaseUnitTest`
+  (set `AIQA_LIVE=1` to also read the real relays).
+
 ## Change sources
 
 Edit `job/sources.json` (`name`, `group` A/B/C, feed `url`). Sources without a working feed were left out:
@@ -63,6 +77,7 @@ export AIQA_KEYSTORE_PROPS=/path/outside/repo/signing.properties   # storeFile, 
 ```
 
 Without `AIQA_KEYSTORE_PROPS` the release APK is built unsigned. The keystore is never part of this repo.
+Minimum Android version: 13 (API 33).
 **Updates only install over an existing install if they are signed with the same key** – back up the keystore.
 
 If you change dependencies: `./gradlew --write-verification-metadata sha256 :app:assembleRelease`, then review the diff.

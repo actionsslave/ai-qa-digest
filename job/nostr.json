@@ -1,0 +1,10 @@
+{
+  "pubkey": "6e7132c465a7beed82831ff8082e67b42c0b6da3968890a2383f01b0373cb124",
+  "relays": [
+    "wss://relay.primal.net",
+    "wss://relay.snort.social",
+    "wss://offchain.pub",
+    "wss://relay.nostr.net"
+  ],
+  "profile": {}
+}
