@@ -30,7 +30,9 @@ Content from feeds and web pages is treated as data, never as instructions.
 ## Change sources
 
 Edit `job/sources.json` (`name`, `group` A/B/C, feed `url`). Sources without a working feed were left out:
-Alan Page (bot protection blocks automated access), Vanishing Gradients (feed URL returns 404).
+Alan Page (bot protection blocks automated access), Vanishing Gradients (feed URL returns 404),
+Uber Engineering, Adyen, Stripe, DORA, MAS, IMDA (no feed found). Anthropic Engineering has no official feed and is read via a
+community-maintained mirror (`Olshansk/rss-feeds`); if it breaks, remove it from `sources.json`.
 Hacker News is read through the official Algolia API instead of hnrss.org (which answered 502).
 
 ## Build the app

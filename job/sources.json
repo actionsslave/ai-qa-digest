@@ -86,6 +86,31 @@
       "url": "https://www.reddit.com/r/softwaretesting/top/.rss?t=day"
     },
     {
+      "name": "Anthropic Engineering",
+      "group": "B",
+      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml"
+    },
+    {
+      "name": "Airbnb Engineering",
+      "group": "A",
+      "url": "https://medium.com/feed/airbnb-engineering"
+    },
+    {
+      "name": "OWASP GenAI Security",
+      "group": "B",
+      "url": "https://genai.owasp.org/feed/"
+    },
+    {
+      "name": "Thoughtworks Insights",
+      "group": "A",
+      "url": "https://www.thoughtworks.com/rss/insights.xml"
+    },
+    {
+      "name": "ISTQB",
+      "group": "A",
+      "url": "https://istqb.org/feed/"
+    },
+    {
       "name": "Hacker News",
       "group": "C",
       "type": "hn_algolia",
