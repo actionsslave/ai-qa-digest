@@ -21,7 +21,8 @@ def clean_text(s: str) -> str:
     s = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", s or "")
     s = re.sub(r"(?s)<[^>]+>", " ", s)
     s = html.unescape(s)
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s).strip()
+    return re.sub(r"\s*submitted by /u/\S+ \[link\] \[comments\]$", "", s)
 
 def excerpt(s: str, limit: int = 280) -> str:
     s = clean_text(s)

@@ -27,6 +27,20 @@ Pages URL: `https://actionsslave.github.io/ai-qa-digest/digest.json`
 
 Content from feeds and web pages is treated as data, never as instructions.
 
+## Run the job in GitHub Actions (no approvals, no sandbox)
+
+`ci/digest.yml` is the workflow. The selection step (`job/select_items.py`) asks a model on OpenRouter which candidates to keep.
+The model only returns candidate IDs; titles, URLs and excerpts always come from the sources themselves.
+
+One-time setup (in the GitHub web UI, as the repo owner):
+1. Settings → Secrets and variables → Actions → *New repository secret*: `OPENROUTER_API_KEY` (set a low spending limit on the key).
+2. Optional, same page, tab *Variables*: `OPENROUTER_MODEL` (default `anthropic/claude-sonnet-5.5`).
+3. Settings → Actions → General → Workflow permissions → *Read and write permissions*.
+4. Create `.github/workflows/digest.yml` with the content of `ci/digest.yml`.
+5. Actions tab → *Curate digest* → *Run workflow* (tick *force*) to test it once.
+
+Schedule: 08:00 Europe/Berlin (GitHub may start it a few minutes late). The run fails visibly (and GitHub e-mails you) if the API key or credits are missing; nothing is published in that case.
+
 ## Change sources
 
 Edit `job/sources.json` (`name`, `group` A/B/C, feed `url`). Sources without a working feed were left out:
