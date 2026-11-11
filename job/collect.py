@@ -10,6 +10,8 @@ from pathlib import Path
 from common import normalize_url, item_id, excerpt, clean_text
 
 UA = "Mozilla/5.0 (compatible; ai-qa-digest/1.0; personal feed reader)"
+# Some hosts (e.g. Substack) answer 403 to datacenter IPs with a bot-like UA; retry once with a browser-like UA.
+UA_BROWSER = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"
 NS = {"a": "http://www.w3.org/2005/Atom", "c": "http://purl.org/rss/1.0/modules/content/",
       "dc": "http://purl.org/dc/elements/1.1/"}
 
@@ -17,14 +19,15 @@ def fetch(url, tries=3):
     last = None
     for i in range(tries):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/xml,text/xml,*/*"})
+            ua = UA_BROWSER if i > 0 and last == "HTTP 403" else UA
+            req = urllib.request.Request(url, headers={"User-Agent": ua, "Accept": "application/rss+xml,application/xml,text/xml,*/*", "Accept-Language": "en"})
             with urllib.request.urlopen(req, timeout=25) as r:
                 return r.read()
         except urllib.error.HTTPError as e:
             last = f"HTTP {e.code}"
             if e.code == 429:
                 time.sleep(5 * (i + 1)); continue
-            if e.code in (404, 403, 410):
+            if e.code in (404, 410) or (e.code == 403 and i > 0):
                 break
         except Exception as e:
             last = type(e).__name__ + ": " + str(e)[:80]
