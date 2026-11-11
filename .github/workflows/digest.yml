@@ -77,3 +77,13 @@ jobs:
           git add docs/digest.json
           git commit -m "Digest update $(date -u +%F)"
           git push origin HEAD:main
+
+      - name: Publish to Nostr (optional, does not fail the run)
+        if: steps.gate.outputs.run == 'true'
+        continue-on-error: true
+        working-directory: repo
+        run: |
+          if [ -z "$NOSTR_SECRET_KEY" ]; then echo "NOSTR_SECRET_KEY not set, skipping"; exit 0; fi
+          python3 job/nostr.py publish
+        env:
+          NOSTR_SECRET_KEY: ${{ secrets.NOSTR_SECRET_KEY }}
