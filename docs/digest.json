@@ -1,6 +1,24 @@
 {
-  "generated_at": "2026-11-12T10:17:52+01:00",
+  "generated_at": "2026-11-13T13:19:14+01:00",
   "items": [
+    {
+      "id": "3c4c52b88a45dc37",
+      "title": "SpecBench: A tool to evaluate AI-enabled software development workflows",
+      "url": "https://thoughtworks.com/insights/blog/generative-ai/specbench-tool-evaluate-ai-enabled-software-development-workflows",
+      "source": "Thoughtworks Insights",
+      "excerpt": "SpecBench: A tool to evaluate AI-enabled software development workflows",
+      "published_at": "2026-11-13T00:00:00+00:00",
+      "added_at": "2026-11-13T13:19:14+01:00"
+    },
+    {
+      "id": "e63f9e41f2fddc27",
+      "title": "agent writing page objects from recording vs exploring the app itself",
+      "url": "https://reddit.com/r/QualityAssurance/comments/1xuhhls/agent_writing_page_objects_from_recording_vs",
+      "source": "r/QualityAssurance",
+      "excerpt": "Hi! FE dev/SDET here. Years ago, a QA colleague of mine introduced me to POM, and I've been obsessed with them and e2e testing ever since. For the past 2 years, my workflow was using Playwright codegen to record my flows, then asking my agent to turn the recorded script into…",
+      "published_at": "2026-11-12T16:36:10+00:00",
+      "added_at": "2026-11-13T13:19:14+01:00"
+    },
     {
       "id": "a89f0826746b4cb4",
       "title": "Comparative Analysis of Agent Evaluation Frameworks: Stability, Detection, and Discovery in Enterprise Analytics Agents",
