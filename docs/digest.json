@@ -1,6 +1,15 @@
 {
-  "generated_at": "2026-11-15T13:01:01+01:00",
+  "generated_at": "2026-11-16T13:51:18+01:00",
   "items": [
+    {
+      "id": "8391db3830f58f98",
+      "title": "Issue #335",
+      "url": "https://softwaretestingweekly.com/issues/335",
+      "source": "Software Testing Weekly",
+      "excerpt": "Comment Welcome to the 335th issue! More testers and engineers now build agentic QA harnesses. Naturally, this raises the question of whether AI can really replace us. For example, Dejan Menges described his approach: The QA engineer on my laptop works nights . Since he got…",
+      "published_at": "2026-11-15T17:41:55+00:00",
+      "added_at": "2026-11-16T13:51:18+01:00"
+    },
     {
       "id": "3c4c52b88a45dc37",
       "title": "SpecBench: A tool to evaluate AI-enabled software development workflows",
