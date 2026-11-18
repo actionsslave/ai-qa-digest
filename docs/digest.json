@@ -1,6 +1,24 @@
 {
-  "generated_at": "2026-11-16T13:51:18+01:00",
+  "generated_at": "2026-11-18T14:10:05+01:00",
   "items": [
+    {
+      "id": "d2452e4daa537a33",
+      "title": "AI Tests You Can’t Trust? Flaky Agents, Playwright MCP, Google EGM TGNS",
+      "url": "https://testguild.com/podcast/n200-nov16",
+      "source": "TestGuild",
+      "excerpt": "About This Episode: What’s new with Playwright MCP? Can you trust tests that AI keeps rewriting? Have you seen the […]",
+      "published_at": "2026-11-16T19:36:18+00:00",
+      "added_at": "2026-11-18T14:10:05+01:00"
+    },
+    {
+      "id": "fe10edf586efbfe1",
+      "title": "Can Coding Agents Write and Transpile Unit Tests",
+      "url": "https://arxiv.org/abs/2611.21797v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "Coding assistants built on Large Language Models (LLMs) have become a staple of modern software development, increasingly trusted to execute workflows and modernize code end-to-end. Much of this trust rests on passing tests, which are often written by the coding agents…",
+      "published_at": "2026-11-16T19:16:19+00:00",
+      "added_at": "2026-11-18T14:10:05+01:00"
+    },
     {
       "id": "8391db3830f58f98",
       "title": "Issue #335",
