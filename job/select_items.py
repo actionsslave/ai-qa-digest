@@ -53,8 +53,10 @@ def call(model, key, user):
     raise RuntimeError(f"OpenRouter call failed ({last})")
 
 def parse_ids(text):
-    m = re.search(r"\{.*\}", text, re.S)
-    data = json.loads(m.group(0) if m else text)
+    """Take the first JSON object in the answer; ignore anything the model adds before or after it."""
+    start = text.find("{")
+    if start < 0: raise ValueError("no JSON object in model answer")
+    data, _ = json.JSONDecoder().raw_decode(text[start:])
     return [(s["id"], str(s.get("reason", ""))[:200]) for s in data["selected"]]
 
 def page_description(url):
@@ -93,7 +95,12 @@ def main():
                     published=c["published_at"][:10], excerpt=c["excerpt"][:300]) for c in cands]
     user = "<candidates>\n" + json.dumps(listing, ensure_ascii=False) + "\n</candidates>"
     picked, seen = [], set()
-    for cid, reason in parse_ids(call(model, key, user)):
+    try:
+        answer = parse_ids(call(model, key, user))
+    except (ValueError, KeyError, TypeError) as e:       # JSONDecodeError is a ValueError
+        print(f"unusable model answer ({type(e).__name__}), asking once more", file=sys.stderr)
+        answer = parse_ids(call(model, key, user))
+    for cid, reason in answer:
         if cid in by_id and cid not in seen:
             seen.add(cid); picked.append((by_id[cid], reason))
     picked = picked[:MAX_NEW]
