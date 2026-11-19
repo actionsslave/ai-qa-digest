@@ -17,6 +17,9 @@ enum class EntryStyle { Plain, Card, Outlined, HardShadow, Bevel, Glossy }
 /** How the top of the screen looks. */
 enum class HeaderStyle { Plain, Rule, Bar }
 
+/** How the whole page is laid out: a list of entries, or a newspaper front page (masthead, lead story, two columns). */
+enum class Layout { List, Newspaper }
+
 /** Fonts that ship with the device. Nothing is bundled or downloaded. */
 @OptIn(ExperimentalTextApi::class)
 object Fonts {
@@ -68,6 +71,7 @@ data class DigestTheme(
     val barText: Color,
     val ruleColor: Color,
     val ruleThickness: Dp,
+    val layout: Layout = Layout.List,
     val darkVariant: DigestTheme? = null,
 )
 
@@ -81,6 +85,50 @@ object Themes {
 
     /** Ordered from retro to today. */
     val all: List<DigestTheme> = listOf(
+        DigestTheme(
+            id = "dailypaper",
+            name = "Tageszeitung",
+            era = "klassisch",
+            bg = Color(0xFFF5F2E9),
+            surface = Color(0xFFF5F2E9),
+            surface2 = Color(0xFFF5F2E9),
+            text = Color(0xFF141414),
+            titleColor = Color(0xFF141414),
+            muted = Color(0xFF474747),
+            accent = Color(0xFF141414),
+            star = Color(0xFF141414),
+            line = Color(0xFF141414),
+            titleFont = FontFamily.Serif,
+            bodyFont = FontFamily.Serif,
+            metaFont = FontFamily.Serif,
+            headFont = FontFamily.Serif,
+            titleWeight = FontWeight.Bold,
+            headWeight = FontWeight.Bold,
+            italic = false,
+            titleSize = 17.0f.sp,
+            bodySize = 13.5f.sp,
+            metaSize = 11.0f.sp,
+            headSize = 38.0f.sp,
+            tracking = 0.0f.sp,
+            upper = false,
+            underline = false,
+            glow = null,
+            entry = EntryStyle.Plain,
+            radius = 0.dp,
+            border = 0.dp,
+            borderColor = Color(0xFF000000),
+            shadowColor = Color(0xFF000000),
+            elevation = 0.dp,
+            shadowOffset = 0.dp,
+            gap = 0.dp,
+            lineThickness = 1.dp,
+            header = HeaderStyle.Rule,
+            barColor = Color(0xFF000000),
+            barText = Color(0xFFFFFFFF),
+            ruleColor = Color(0xFF141414),
+            ruleThickness = 3.dp,
+            layout = Layout.Newspaper,
+        ),
         DigestTheme(
             id = "bauhaus",
             name = "Bauhaus",
@@ -123,6 +171,7 @@ object Themes {
             barText = Color(0xFF111111),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "deco",
@@ -166,6 +215,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFFC9A24B),
             ruleThickness = 3.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "newsprint",
@@ -209,6 +259,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF141414),
             ruleThickness = 5.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "diner",
@@ -252,6 +303,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "swiss",
@@ -295,6 +347,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 4.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "typewriter",
@@ -338,6 +391,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF1A2238),
             ruleThickness = 1.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "popart",
@@ -381,6 +435,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "seventies",
@@ -424,6 +479,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "terminal",
@@ -467,6 +523,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "amber",
@@ -510,6 +567,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "memphis",
@@ -553,6 +611,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFFE5287F),
             ruleThickness = 8.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "synthwave",
@@ -596,6 +655,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "win95",
@@ -639,6 +699,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "web98",
@@ -682,6 +743,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF999999),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "aqua",
@@ -725,6 +787,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "metro",
@@ -768,6 +831,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "material",
@@ -811,6 +875,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "devdark",
@@ -854,6 +919,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "neumorph",
@@ -897,6 +963,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "brutal",
@@ -940,6 +1007,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
         ),
         DigestTheme(
             id = "standard",
@@ -983,6 +1051,7 @@ object Themes {
             barText = Color(0xFFFFFFFF),
             ruleColor = Color(0xFF000000),
             ruleThickness = 2.dp,
+            layout = Layout.List,
             darkVariant =
                 DigestTheme(
                     id = "standard",
@@ -1026,6 +1095,7 @@ object Themes {
                     barText = Color(0xFFFFFFFF),
                     ruleColor = Color(0xFF000000),
                     ruleThickness = 2.dp,
+                    layout = Layout.List,
                 ),
         ),
     )

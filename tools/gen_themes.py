@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Design token table for the 21 app themes. Emits Themes.kt and checks contrast (WCAG)."""
+"""Design token table for the 22 app themes. Emits Themes.kt and checks contrast (WCAG)."""
 import sys
 
 def lum(h):
@@ -19,7 +19,7 @@ D = dict(  # defaults
     upper=False, underline=False, glow=None,
     entry='Plain', radius=0, border=0, border_color='#000000', shadow_color='#000000', elevation=0, shadow_offset=0,
     gap=0, line_thickness=1,
-    header='Plain', bar='#000000', bar_text='#FFFFFF', rule='#000000', rule_thickness=2, dark_variant=None)
+    header='Plain', bar='#000000', bar_text='#FFFFFF', rule='#000000', rule_thickness=2, layout='List', dark_variant=None)
 
 T = []
 def theme(id, name, era, bg, text, muted, accent, **kw):
@@ -33,6 +33,11 @@ def theme(id, name, era, bg, text, muted, accent, **kw):
     t['head_font'] = t['head_font'] or t['title_font']
     T.append(t)
 
+# 0 Tageszeitung: classic broadsheet, text only (own masthead and column layout in MainActivity)
+theme('dailypaper', 'Tageszeitung', 'klassisch', '#F5F2E9', '#141414', '#474747', '#141414',
+      title_font='serif', body_font='serif', meta_font='serif', title_weight='Bold', head_weight='Bold',
+      title_size=17, body_size=13.5, meta_size=11, head_size=38,
+      line_thickness=1, header='Rule', rule='#141414', rule_thickness=3, layout='Newspaper')
 # 1 Bauhaus
 theme('bauhaus', 'Bauhaus', '1923', '#F2F2F2', '#111111', '#4A4A4A', '#D62828', surface='#FFFFFF',
       title_font='default', title_weight='Black', title_size=17, head_weight='Black', head_size=26,
@@ -173,7 +178,7 @@ def kt(t, indent='        '):
         f('shadowColor', col(t['shadow_color'])), f('elevation', dp(t['elevation'])), f('shadowOffset', dp(t['shadow_offset'])),
         f('gap', dp(t['gap'])), f('lineThickness', dp(t['line_thickness'])),
         f('header', f"HeaderStyle.{t['header']}"), f('barColor', col(t['bar'])), f('barText', col(t['bar_text'])),
-        f('ruleColor', col(t['rule'])), f('ruleThickness', dp(t['rule_thickness']))]
+        f('ruleColor', col(t['rule'])), f('ruleThickness', dp(t['rule_thickness'])), f('layout', f"Layout.{t['layout']}")]
     if t['dark_variant']:
         dv = t['dark_variant']
         out.append(f"{indent}    darkVariant =")
@@ -202,6 +207,9 @@ enum class EntryStyle { Plain, Card, Outlined, HardShadow, Bevel, Glossy }
 
 /** How the top of the screen looks. */
 enum class HeaderStyle { Plain, Rule, Bar }
+
+/** How the whole page is laid out: a list of entries, or a newspaper front page (masthead, lead story, two columns). */
+enum class Layout { List, Newspaper }
 
 /** Fonts that ship with the device. Nothing is bundled or downloaded. */
 @OptIn(ExperimentalTextApi::class)
@@ -254,6 +262,7 @@ data class DigestTheme(
     val barText: Color,
     val ruleColor: Color,
     val ruleThickness: Dp,
+    val layout: Layout = Layout.List,
     val darkVariant: DigestTheme? = null,
 )
 

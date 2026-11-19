@@ -26,8 +26,8 @@ android {
         applicationId = "app.aiqadigest"
         minSdk = 33
         targetSdk = 35
-        versionCode = 4
-        versionName = "1.1.0"
+        versionCode = 5
+        versionName = "1.2.0"
         // The only network endpoint of the app.
         buildConfigField("String", "DIGEST_URL", "\"https://actionsslave.github.io/ai-qa-digest/digest.json\"")
         // Nostr: author key and relays come from job/nostr.json (the same file the publishing job uses).

@@ -17,6 +17,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.LineBreak
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -140,6 +147,11 @@ private fun DigestScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val zone = ZoneId.systemDefault()
+
+    if (theme.layout == Layout.Newspaper) {
+        NewspaperScreen(state, theme, zone, onOpen, onDesign)
+        return
+    }
 
     Column(Modifier.fillMaxSize().background(theme.bg).safeDrawingPadding()) {
         Header(theme, statusLine(state, zone), onDesign)
@@ -304,6 +316,194 @@ private fun Entry(item: DigestItem, isNew: Boolean, theme: DigestTheme, zone: Zo
             HorizontalDivider(thickness = theme.lineThickness, color = theme.line)
         }
     }
+}
+
+/**
+ * A classic daily paper, text only: masthead, dateline, the newest entry as the lead story,
+ * then the rest in two columns separated by column rules (one column on narrow screens).
+ */
+@Composable
+private fun NewspaperScreen(
+    state: UiState,
+    theme: DigestTheme,
+    zone: ZoneId,
+    onOpen: (String) -> Unit,
+    onDesign: () -> Unit,
+) {
+    val twoColumns = LocalConfiguration.current.screenWidthDp >= 360
+    val lead = state.items.firstOrNull()
+    val rest = state.items.drop(1)
+    val rows = if (twoColumns) rest.chunked(2) else rest.map { listOf(it) }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().background(theme.bg).safeDrawingPadding(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+    ) {
+        item(key = "masthead") { Masthead(theme, statusLine(state, zone), zone, state.items.size, onDesign) }
+        if (lead == null && !state.loading) {
+            item(key = "empty") {
+                Text(
+                    if (state.error != null) "Nothing to show yet." else "No entries.",
+                    color = theme.muted,
+                    fontFamily = theme.bodyFont,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = theme.bodySize,
+                    modifier = Modifier.padding(vertical = 24.dp),
+                )
+            }
+        }
+        if (lead != null) {
+            item(key = lead.id) {
+                PaperStory(lead, isNew = lead.id in state.newIds, theme = theme, zone = zone, lead = true, onOpen = onOpen)
+                Rule(theme, 1.dp)
+            }
+        }
+        items(rows, key = { row -> row.joinToString("+") { it.id } }) { row ->
+            Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
+                row.forEachIndexed { i, item ->
+                    if (i > 0) {
+                        Box(Modifier.padding(horizontal = 10.dp).width(1.dp).fillMaxHeight().background(theme.line))
+                    }
+                    Box(Modifier.weight(1f)) {
+                        PaperStory(item, isNew = item.id in state.newIds, theme = theme, zone = zone, lead = false, onOpen = onOpen)
+                    }
+                }
+                if (row.size == 1 && twoColumns) {
+                    Box(Modifier.padding(horizontal = 10.dp).width(1.dp).fillMaxHeight().background(theme.line))
+                    Spacer(Modifier.weight(1f))
+                }
+            }
+            Rule(theme, 1.dp)
+        }
+    }
+}
+
+@Composable
+private fun Rule(theme: DigestTheme, thickness: androidx.compose.ui.unit.Dp) {
+    Box(Modifier.fillMaxWidth().height(thickness).background(theme.ruleColor))
+}
+
+@Composable
+private fun Masthead(theme: DigestTheme, status: String, zone: ZoneId, count: Int, onDesign: () -> Unit) {
+    val today = LocalDate.now(zone)
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                "Daily edition · text only",
+                color = theme.muted,
+                fontFamily = theme.metaFont,
+                fontStyle = FontStyle.Italic,
+                fontSize = theme.metaSize,
+                modifier = Modifier.weight(1f),
+            )
+            Box(
+                Modifier.heightIn(min = 48.dp).clickable(onClick = onDesign).padding(start = 8.dp),
+                contentAlignment = Alignment.CenterEnd,
+            ) {
+                Text(
+                    "Design",
+                    color = theme.titleColor,
+                    fontFamily = theme.metaFont,
+                    fontSize = 14.sp,
+                    textDecoration = TextDecoration.Underline,
+                )
+            }
+        }
+        Rule(theme, 1.dp)
+        Text(
+            "The AI & QA Digest",
+            color = theme.titleColor,
+            fontFamily = theme.headFont,
+            fontWeight = theme.headWeight,
+            fontSize = theme.headSize,
+            lineHeight = theme.headSize * 1.05f,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        )
+        Rule(theme, theme.ruleThickness)
+        Spacer(Modifier.height(2.dp))
+        Rule(theme, 1.dp)
+        Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                today.format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)),
+                color = theme.text,
+                fontFamily = theme.metaFont,
+                fontSize = theme.metaSize,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                if (count == 1) "1 story" else "$count stories",
+                color = theme.text,
+                fontFamily = theme.metaFont,
+                fontSize = theme.metaSize,
+            )
+        }
+        Rule(theme, 1.dp)
+        if (status.isNotEmpty()) {
+            Text(
+                status,
+                color = theme.muted,
+                fontFamily = theme.metaFont,
+                fontStyle = FontStyle.Italic,
+                fontSize = theme.metaSize,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+            )
+        }
+        Spacer(Modifier.height(6.dp))
+    }
+}
+
+@Composable
+private fun PaperStory(item: DigestItem, isNew: Boolean, theme: DigestTheme, zone: ZoneId, lead: Boolean, onOpen: (String) -> Unit) {
+    val headSize = if (lead) theme.titleSize * 1.5f else theme.titleSize
+    val bodySize = if (lead) theme.bodySize * 1.08f else theme.bodySize
+    val paragraph = TextStyle(textAlign = TextAlign.Justify, hyphens = Hyphens.Auto, lineBreak = LineBreak.Paragraph)
+    Column(Modifier.fillMaxWidth().clickable { onOpen(item.url) }.padding(vertical = 10.dp)) {
+        Text(
+            buildAnnotatedString {
+                if (isNew) append("★ ")
+                append(item.title)
+            },
+            color = theme.titleColor,
+            fontFamily = theme.titleFont,
+            fontWeight = theme.titleWeight,
+            fontSize = headSize,
+            lineHeight = headSize * 1.18f,
+            textAlign = if (lead) TextAlign.Center else TextAlign.Start,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            listOf(item.source, formatDate(item.publishedAt, zone)).filter { it.isNotEmpty() }.joinToString(" · ").uppercase(Locale.ENGLISH),
+            color = theme.muted,
+            fontFamily = theme.metaFont,
+            fontSize = theme.metaSize * 0.92f,
+            letterSpacing = 0.8.sp,
+            textAlign = if (lead) TextAlign.Center else TextAlign.Start,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        if (item.excerpt.isNotBlank()) {
+            Spacer(Modifier.height(6.dp))
+            Text(
+                if (lead) dropCap(item.excerpt, bodySize * 2.0f) else buildAnnotatedString { append(item.excerpt) },
+                color = theme.text,
+                fontFamily = theme.bodyFont,
+                fontSize = bodySize,
+                lineHeight = bodySize * 1.38f,
+                style = paragraph,
+            )
+        }
+    }
+}
+
+/** The first letter set large, as papers open a lead story. Compose cannot wrap text around it, so it sits inline. */
+private fun dropCap(text: String, size: androidx.compose.ui.unit.TextUnit) = buildAnnotatedString {
+    val first = text.trimStart()
+    if (first.isEmpty()) return@buildAnnotatedString
+    val n = Character.charCount(first.codePointAt(0))
+    withStyle(SpanStyle(fontSize = size, fontWeight = FontWeight.Bold)) { append(first.substring(0, n)) }
+    append(first.substring(n))
 }
 
 @Composable
