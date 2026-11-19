@@ -1,6 +1,15 @@
 {
-  "generated_at": "2026-11-18T14:10:05+01:00",
+  "generated_at": "2026-11-19T14:21:15+01:00",
   "items": [
+    {
+      "id": "cfd25bbf053bae31",
+      "title": "v0.0.86",
+      "url": "https://github.com/microsoft/playwright-mcp/releases/tag/v0.0.86",
+      "source": "Playwright MCP Releases",
+      "excerpt": "Highlights 🗂️ Resume extension tab groups — the connection page now lets you select a whole tab group or several individual tabs, rather than one tab at a time. When a client disconnects, its group stays open and turns gray; select that group on the next connection to…",
+      "published_at": "2026-11-18T18:50:38+00:00",
+      "added_at": "2026-11-19T14:21:15+01:00"
+    },
     {
       "id": "d2452e4daa537a33",
       "title": "AI Tests You Can’t Trust? Flaky Agents, Playwright MCP, Google EGM TGNS",
