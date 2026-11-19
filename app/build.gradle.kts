@@ -83,6 +83,10 @@ android {
     }
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        // Store dex and native libraries compressed: the APK stays under 16 MB (upload limit of the build machine's proxy).
+        // Costs a little install time and storage, nothing at runtime.
+        dex.useLegacyPackaging = true
+        jniLibs.useLegacyPackaging = true
     }
 }
 
