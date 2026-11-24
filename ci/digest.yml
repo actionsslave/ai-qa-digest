@@ -78,8 +78,9 @@ jobs:
           git commit -m "Digest update $(date -u +%F)"
           git push origin HEAD:main
 
+      # Not gated on purpose: the digest may already have been published today by another publisher,
+      # and Nostr must still catch up (events are deterministic, relays answer "duplicate" for known ones).
       - name: Publish to Nostr (optional, does not fail the run)
-        if: steps.gate.outputs.run == 'true'
         continue-on-error: true
         working-directory: repo
         run: |
