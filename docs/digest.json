@@ -1,6 +1,33 @@
 {
-  "generated_at": "2026-11-23T08:01:56+01:00",
+  "generated_at": "2026-11-24T08:01:56+01:00",
   "items": [
+    {
+      "id": "75bc56e2e1db07bf",
+      "title": "Oops!... I Parsed It Again: Tool-Call Smuggling Against LLM Agents",
+      "url": "https://arxiv.org/abs/2611.30624v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "LLM agents act through tool calls: the model writes the arguments of a call as JSON, a guard decides whether the call may run, and an executor runs it. The same bytes are parsed several times, by the provider, gateways, SDKs, frameworks, the guard, and the executor. JSON leaves…",
+      "published_at": "2026-11-23T12:56:26+00:00",
+      "added_at": "2026-11-24T08:01:56+01:00"
+    },
+    {
+      "id": "dbbc20d09521f984",
+      "title": "AI in QA - Issue #37",
+      "url": "https://aiinqa.com/ai-in-qa-issue-37",
+      "source": "AI in QA",
+      "excerpt": "I've seen my agent cheat before. You ask it to fix the failing tests, and it changes the tests, not the code. The bug is still there and the build is green. Add a permission rule on test folders and a CODEOWNERS file so a human approves test changes. Let the agent fix the code…",
+      "published_at": "2026-11-23T11:30:00+00:00",
+      "added_at": "2026-11-24T08:01:56+01:00"
+    },
+    {
+      "id": "6e16c712a35a0bfe",
+      "title": "What Makes Good Data for Training Coding Agents? A Systematic Study on SWE-Gym",
+      "url": "https://arxiv.org/abs/2611.30207v1",
+      "source": "arXiv cs.SE",
+      "excerpt": "Reinforcement learning (RL) trains coding agents on software tasks whose hidden tests decide the reward, yet task collections check these tests only against the reference fix. We ask what makes a task good training data, focusing on the correctness of its reward labels. We…",
+      "published_at": "2026-11-23T07:45:13+00:00",
+      "added_at": "2026-11-24T08:01:56+01:00"
+    },
     {
       "id": "0ada1934a0788fbd",
       "title": "How Public Evals Work, Where They Break, and What Should Change",
